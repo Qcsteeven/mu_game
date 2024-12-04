@@ -18,7 +18,8 @@ class trader(NPC):
 		super().__init__(game_manager, name, health, damage, room, inventory, subscribers)
 	
 	def action(self, entity : Entity, kind : str) -> None:
-	
+        pass
+    
 	def use_inventory(self) -> Object:
 		pass
 	def trading(self, money, name_bread):
