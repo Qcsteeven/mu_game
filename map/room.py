@@ -1,12 +1,12 @@
-from abc import abstractmethod
-class Room:
+from abc import ABC, abstractmethod
+class Room(ABC):
             def __init__(self, isSafe: bool, creations: list[Entity], objects: list[Objects], roomEffect: list[roomEffect]):
                 self.isSafe = isSafe
                 self.creations = creations
                 self.objects = objects
                 self.roomEffect = roomEffect
         
-            @abstractmetod
+            @abstractmethod
             def update(self) -> None:
                     pass
             @abstractmethod
