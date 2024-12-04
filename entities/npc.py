@@ -1,8 +1,6 @@
 from entity import Entity
 
 
-
-
 class NPC(Entity):
 	def __init__(self):
 		print(f'появился {Entity.name}')
@@ -44,5 +42,4 @@ class robber(NPC):
 		entity.health =- damage
 		if entity.health <= 0:
 			entity.notify("lose")
-		
 		

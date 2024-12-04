@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from ..map.room import Room 
+from ..map.room import Room
 from ..objects.objects import Object
 from ..management.game_manager import GameManager
 
