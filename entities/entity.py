@@ -4,6 +4,7 @@ from ..objects.objects import Object
 from ..management.game_manager import GameManager
 
 class Entity(ABC):
+
     def __init__(self, game_manager : GameManager, health : int, damage : int, room: Room, inventory: list[Object], subscribers: list[Room | Entity | Object]):
         self._health = health
         self._room = room
@@ -13,5 +14,21 @@ class Entity(ABC):
         self.game_manager = game_manager
 
     @abstractmethod
-    def action(self, entity : Entity, kind : str):
+    def action(self, entity : Entity, kind : str) -> None:
         pass
+
+    @abstractmethod
+    def use_inventory(self) -> Object:
+        pass
+
+    def subscribe(self, subscriber : GameManager | Entity | Room | Object) -> None:
+        pass
+    
+    def unsubscribe(self, subscriber : GameManager | Entity | Room | Object) -> None:
+        pass
+    
+    def notify(self, action : str) -> None:
+        pass
+    
+        
+        
