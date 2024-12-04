@@ -13,7 +13,6 @@ def decorator_effect_person(action):
             print("Хмм, эта комната заперта-нужно найти ключ")
 
         return action(self)
-
     return wrapper
 
 
