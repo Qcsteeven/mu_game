@@ -3,21 +3,25 @@ import random
 
 
 def create_2d_array(rows, cols, d_count, priz):
-    array = [['' for _ in range(cols)] for _ in range(rows)]
+
+    array = [['-' for _ in range(cols)] for _ in range(rows)]
 
     array[0][0] = 's'
     array[0][1] = 'a'
-
     array[rows - 1][cols - 1] = 'B'
 
-    for i in range(rows):
-        for j in range(cols):
-                if array[i][j] == '':
-                    array[i][j] = random.choice(['-', 'd', 'p'])
-                    if(array[i][j] == 'd'):
-                        d_count -= 1
-                    if(array[i][j] == 'p'):
-                        priz -= 1
+    positions = [(i, j) for i in range(rows) for j in range(cols) if array[i][j] == '-']
+
+    for _ in range(d_count):
+        i, j = random.choice(positions)
+        array[i][j] = 'd'
+        positions.remove((i, j))
+
+    for _ in range(priz):
+        i, j = random.choice(positions)
+        array[i][j] = 'p'
+        positions.remove((i, j))
+
     return array
 
 
@@ -35,5 +39,4 @@ d_count = data["options"]["d_count"]
 priz = data["options"]["priz"]
 
 array = create_2d_array(rows, cols, d_count, priz)
-
 print_array(array)
