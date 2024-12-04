@@ -15,7 +15,7 @@ class Entity(ABC):
         self.game_manager = game_manager
 
     @abstractmethod
-    def action(self, entity : Entity, kind : str) -> None:
+    def action(self, entity : 'Entity', kind : str) -> None:
         pass
 
     @abstractmethod
@@ -33,5 +33,56 @@ class Entity(ABC):
         for elem in self._subscribers:
             elem.update(action)
     
+    
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value : str):
+        self._name = value
+
+    
+    @property
+    def health(self):
+        return self._health
+    
+    @health.setter
+    def health(self, value : int):
+        self._health = value
+
+    
+    @property
+    def room(self):
+        return self._room
+
+    @room.setter
+    def room(self, value : Room):
+        self._room = value
         
+
+    @property
+    def inventory(self):
+        return self.inventory
         
+    @inventory.setter
+    def inventory(self, value : list[Object]):
+        self._inventory = value
+        
+    
+    @property
+    def damage(self):
+        return self._damage
+
+    @damage.setter
+    def danage(self, value : int):
+        self.damage = value
+        
+    
+    @property
+    def subscribers(self):
+        return self._subscribers
+    
+    @subscribers.setter
+    def subscribers(self, value : list[Room | 'Entity' | Object]):
+        self._subscribers = value  
