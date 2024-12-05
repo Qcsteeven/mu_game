@@ -26,8 +26,9 @@ class NPC(Entity):
 
 
 class trader(NPC):
-    def __init__(self, game_manager: GameManager, room: Room):
-        super().__init__(game_manager, room)
+    def __init__(self, game_manager: GameManager):
+        super().__init__(game_manager)
+        self.inventory = load_items_from_json('management/text.JSON')
 
     def action(self, entity: 'Entity', kind: str) -> None:
         pass
@@ -62,7 +63,7 @@ class trader(NPC):
         else:
             return 0
 
-    def shop_show(self):
+    def show_inventory(self):
         num = 1
         for i in self.inventory:
             print(f' {i.name} стоит {i.price} руб. ', end=' |_|_| ')
@@ -80,6 +81,7 @@ class robber(NPC):
                 self.armor = i.defense
             if i.item_type == 'sword':
                 self.damage = i.attack
+                
     def action(self, entity: 'Entity', kind: str) -> None:
         pass
 
