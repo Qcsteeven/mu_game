@@ -12,7 +12,7 @@ class Player(Entity):
         self._money = 0
         
     def action(self, kind : str, *args, **kwargs) -> None:
-        if type(args[0]) is Entity:
+        if len(args) > 0 and type(args[0]) is Entity:
             self.subscribe(args[0])
         match (kind):
             case ("attack"):
@@ -23,9 +23,13 @@ class Player(Entity):
                 self.sell(*args, **kwargs)
             case ("move"):
                 self.move(*args, **kwargs)
+            case ("show"):
+                self.show_inventory(*args, **kwargs)
+            case ("use"):
+                self.use_inventory(*args, **kwargs)
             case (_):
                 print("Хммм... Я так не умею")
-        if type(args[0]) is Entity:
+        if len(args) > 0 and type(args[0]) is Entity:
             self.unsubscribe(args[0])
     
     def use_inventory(self, item : str = None) -> None:
@@ -41,7 +45,26 @@ class Player(Entity):
                     print("Я не умею использовать такой предмет")
         else:
             print("Такого у меня нет(")
-        
+            
+    def show_inventory(self) -> None:
+        for item in self._inventory:
+            print(f"Название предмета: {item.name}")
+            print(f"Описание предмета: {item.description}")
+            print(f"Тип предмета: {item.item_type}")
+            match (item.item_type):
+                case ("healing_potion"):
+                    print(f"Исцеление: {item.healing}")
+                case ("armor"):
+                    print(f"Броня: {item.defense}")
+                case ("sword"):
+                    print(f"Урон: {item.attack}")
+                case (_):
+                    pass
+            print(f"Качество: {item.quality}")
+            print(f"Цена: {item.price}")
+            input("Для того, чтобы увидеть следуюший предмет, нажмите Enter")
+        else:
+            print("Инвентарь закончился")
         
     def attack(self, entity : 'Entity', damage : int) -> None:
         if entity.health - damage > 0:
@@ -50,7 +73,7 @@ class Player(Entity):
             entity.health = 0
             entity.notify("kill", entity)
             
-    def sell(self, entity : 'Entity', thing : Object):
+    def sell(self, entity : 'Entity', thing : Object) -> None:
         money = entity.sell(thing)
         if money:
             self._money += money
@@ -62,7 +85,7 @@ class Player(Entity):
             self.inventory.append(new_thing)
             self._money -= new_thing.price
             
-    def move(self, kind : str, *args, **kwargs):
+    def move(self, kind : str, *args, **kwargs) -> None:
         new_pos = tuple()
         if kind == "step":
             direction = args[0]
