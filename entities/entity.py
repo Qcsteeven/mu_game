@@ -2,16 +2,15 @@ from abc import ABC, abstractmethod
 from ..map.room import Room
 from ..objects.objects import Object
 from ..management.game_manager import GameManager
-from typing import Never
 
 class Entity(ABC):
 
     def __init__(self, game_manager : GameManager, room: Room):
         self._name : str = "Entity"
         self._health : int = 100
-        self._inventory : list[Room | Never]  = []
+        self._inventory : list[Object]  = []
         self._damage : int = 1
-        self._subscribers : list[Room | 'Entity' | Object | Never] = []
+        self._subscribers : list[Room | 'Entity' | Object] = [room, game_manager]
         self._position : tuple[int] =  (0,0)
         self._room = room
         self.game_manager = game_manager
