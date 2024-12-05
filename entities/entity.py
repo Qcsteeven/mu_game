@@ -15,6 +15,7 @@ class Entity(ABC):
         self._damage : int = 1
         self._subscribers : list[GameManager | Room | 'Entity' | Object] = [game_manager]
         self._position : tuple[int] =  (0,0)
+        self._armor : int = 0
         self._room : Room | None = None
         self.game_manager = game_manager
 
@@ -99,4 +100,14 @@ class Entity(ABC):
     @position.setter
     def position(self, value : tuple[int]):
         self._position = value       
+    
+    
+    @property
+    def armor(self):
+        return self._armor
+    
+    @armor.setter
+    def armor(self, value : int):
+        self._armor = value
+        
         

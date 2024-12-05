@@ -28,8 +28,20 @@ class Player(Entity):
         if type(args[0]) is Entity:
             self.unsubscribe(args[0])
     
-    def use_inventory(self) -> None:
-        pass
+    def use_inventory(self, item : str = None) -> None:
+        if item and item in self._inventory:
+            match (item.item_type):
+                case ("healing_potion"):
+                    self.health += item.healing
+                case ("armor"):
+                    self.armor += item.defense
+                case ("sword"):
+                    self.damage += item.attack
+                case (_):
+                    print("Я не умею использовать такой предмет")
+        else:
+            print("Такого у меня нет(")
+        
         
     def attack(self, entity : 'Entity', damage : int) -> None:
         if entity.health - damage > 0:
