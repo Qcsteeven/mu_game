@@ -2,7 +2,7 @@ import json
 import random
 
 
-def create_2d_array(rows, cols, d_count, priz):
+def create_2d_array(rows, cols, d_count):
 
     array = [['-' for _ in range(cols)] for _ in range(rows)]
 
@@ -17,11 +17,6 @@ def create_2d_array(rows, cols, d_count, priz):
         array[i][j] = 'd'
         positions.remove((i, j))
 
-    for _ in range(priz):
-        i, j = random.choice(positions)
-        array[i][j] = 'p'
-        positions.remove((i, j))
-
     return array
 
 
@@ -30,13 +25,14 @@ def print_array(array):
         print(' '.join(row))
 
 
-with open("config.json", "r") as file:
+with open("C:/Users/Admin/Desktop/popka_dimi/mu_game/map/config.json", "r") as file:
     data = json.load(file)
 
 rows = data["options"]["rows"]
 cols = data["options"]["cols"]
 d_count = data["options"]["d_count"]
-priz = data["options"]["priz"]
 
-array = create_2d_array(rows, cols, d_count, priz)
+array = create_2d_array(rows, cols, d_count)
 print_array(array)
+
+      

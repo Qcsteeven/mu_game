@@ -2,7 +2,6 @@
     "options": {
       "rows": 5,
       "cols": 5,
-      "d_count": 3,
-      "priz": 3
+      "d_count": 3
     }
   }
