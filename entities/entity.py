@@ -64,7 +64,7 @@ class Entity(ABC):
 
     @property
     def inventory(self):
-        return self.inventory
+        return self._inventory
         
     @inventory.setter
     def inventory(self, value : list[Object]):
@@ -77,7 +77,7 @@ class Entity(ABC):
 
     @damage.setter
     def danage(self, value : int):
-        self.damage = value
+        self._damage = value
         
     
     @property
