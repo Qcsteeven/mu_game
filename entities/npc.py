@@ -1,7 +1,10 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+	from management.game_manager import GameManager
+	from map.room import Room
+	from objects.objects import Object
 from entities.entity import Entity
-from management.game_manager import GameManager
-from map.room import Room
-from objects.objects import Object
 
 class NPC(Entity):
 	def __init__(self, game_manager: GameManager):
