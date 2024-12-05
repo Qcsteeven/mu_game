@@ -40,7 +40,25 @@ class GameManager:
         x, y = self.player.position
         current_room = self._map.get_room(x, y)
         print("Вы пришли в комнату: ", current_room)
-        print("Из нее вы можете пойти в: ", self._map.avail_directions(x, y))
+
+        directions_tuple = self._map.avail_directions(x, y)
+
+        directions_map = ["вверх", "вниз", "влево", "вправо"]
+
+        available_directions = [
+            direction for i, direction in enumerate(directions_map) if directions_tuple[i]
+        ]
+
+        if available_directions:
+            print("Вы можете пойти: " + " и ".join(available_directions) + ".")
+        else:
+            print("Вы не можете никуда пойти.")
+
+    def observe_room(self):
+        x, y = self.player.position
+        current_room = self._map.get_room(x, y)
+        print("Тип комнаты, в которую вы вошли: ", current_room.type)
+        print("Ваша комната наполнена существами ", current_room.creations)
 
     def new_game(self):
         print("Добро пожаловать в подземелье")
@@ -62,6 +80,7 @@ class GameManager:
                 case ("trade"):
                     print("Сегодня шаббат")
             self.check_player_position()
+            self.observe_room()
 
     def update(self, notify_message: str, *args, **kwargs):
         match (notify_message):
