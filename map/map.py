@@ -11,7 +11,7 @@ class Map:
             cls._instance = super(Map, cls).__new__(cls)
         return cls._instance
 
-    def __init__(self, pattern, Entities):
+    def __init__(self, pattern: list[list[str]], Entities: list[Entity]):
         if Map._isCreated == True:
             return
         Map._isCreated = True
@@ -36,10 +36,10 @@ class Map:
                         enemy = random.choice(Entities)
                         self._map[i][j] = Room(False, [enemy], [], [])
 
-    def get_room(self, x_pos, y_pos):
+    def get_room(self, x_pos: int, y_pos: int):
         return self._map[x_pos][y_pos]
 
-    def avail_directions(self, x_pos, y_pos):
+    def avail_directions(self, x_pos: int, y_pos: int):
         up = 1 if x_pos > 0 else 0
         down = 1 if x_pos < self.rows-1 else 0
         left = 1 if y_pos > 0 else 0
