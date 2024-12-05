@@ -48,7 +48,7 @@ class Player(Entity):
         new_thing = entity.trading(self._money, thing)
         if new_thing:
             self.inventory.append(new_thing)
-            self._money -= new_thing.cost
+            self._money -= new_thing.price
             
     def move(self, kind : str, *args, **kwargs):
         new_pos = tuple()

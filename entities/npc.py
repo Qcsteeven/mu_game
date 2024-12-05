@@ -32,9 +32,9 @@ class trader(NPC):
 		pass
 
 	def trading(self, money, name_bread):
-		if name_bread in self.inventory and self.inventory[name_bread].cost <= money:
+		if name_bread in self.inventory and self.inventory[name_bread].price <= money:
 			confirm = input(
-				f'вы точно хатите купить {name_bread} за {name_bread.cost // 1.2} '
+				f'вы точно хатите купить {name_bread} за {name_bread.price // 1.2} '
 				f'РУБЛЕЙ (что бы подтвердить в ведите <да>)')
 			if confirm.lower() != 'да':
 				return None
@@ -44,23 +44,23 @@ class trader(NPC):
 			return tmp
 		else:
 			if name_bread in self.inventory:
-				print(f'Вам не хватает {self.inventory[name_bread].cost - money}')
+				print(f'Вам не хватает {self.inventory[name_bread].price - money}')
 			else:
 				print(f'ВЫ что то путаете у меня нет {name_bread}')
 			return None
 
 	def sell(self, bread : Object):
-		confirm = input(f'вы точно хатите продать {bread} за {bread.cost // 1.2} РУБЛЕЙ (что бы подтвердить в ведите <да>)')
+		confirm = input(f'вы точно хатите продать {bread} за {bread.price // 1.2} РУБЛЕЙ (что бы подтвердить в ведите <да>)')
 		if confirm.lower() == 'да':
 			self.inventory = self.inventory + bread
-			return bread.cost // 1.2
+			return bread.price // 1.2
 		else:
 			return 0
 
 	def shop_show(self):
 		num = 1
 		for i in self.inventory:
-			print(f' {i.name} стоит {i.cost} руб. ', end=' |_|_| ')
+			print(f' {i.name} стоит {i.price} руб. ', end=' |_|_| ')
 			num += 1
 			if not (num % 5):
 				print()
