@@ -13,7 +13,7 @@ class Player(Entity):
         
     def action(self, kind : str, *args, **kwargs) -> None:
         if type(args[0]) is Entity:
-            self.subscribe(entity)
+            self.subscribe(args[0])
         match (kind):
             case ("attack"):
                 self.attack(*args, **kwargs)
@@ -26,7 +26,7 @@ class Player(Entity):
             case (_):
                 print("Хммм... Я так не умею")
         if type(args[0]) is Entity:
-            self.unsubscribe(entity)
+            self.unsubscribe(args[0])
     
     def use_inventory(self) -> None:
         pass
