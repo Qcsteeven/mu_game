@@ -26,7 +26,15 @@ class Player:
             entity.notify("kill", entity)
             
     def sell(self, entity : Entity, thing : Object):
-        self._money += entity.sell(thing)
+        money = entity.sell(thing)
+        if money:
+            self._money += money
+            self.inventaty.remove(thing)
+            
+            
+            
+        
+        
 
     def buy(self, entity : Entity, thing : str) -> None:
         new_thing = entity.trading(self._money, thing)

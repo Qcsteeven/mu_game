@@ -11,6 +11,8 @@ class NPC(Entity):
 		pass
 	def use_inventory(self) -> Object:
 		pass
+	def __del__(self):
+		print(f'{self.name} убит')
 	
 	
 class trader(NPC):
@@ -34,6 +36,15 @@ class trader(NPC):
 			else:
 				print(f'Тебе не хватает {self.inventory[name_bread].cost - money}')
 			return None
+	def sell(self, bread : Object):
+		confirm = input(f'вы точно хатите продать {bread} за {bread.cost // 1.2} РУБЛЕЙ (что бы подтвердить в ведите <да>)')
+		if confirm.lower() == 'да':
+			self.inventory = self.inventory + bread
+			return bread.cost // 1.2
+		else:
+			return 0
+			
+	
 
 class robber(NPC):
 	def action(self, entity : Entity, kind : str) -> None:
@@ -44,4 +55,11 @@ class robber(NPC):
 		entity.health =- damage
 		if entity.health <= 0:
 			entity.notify("lose")
-		
+	def kill(self, entity : Entity):
+		entity.inventory = entity.inventory + self.inventory
+		self.__del__()
+	def update(self, notifi_message, *args, **kwargs):
+		match notifi_message:
+			case "kill":
+				self.kill(args[0])
+	
