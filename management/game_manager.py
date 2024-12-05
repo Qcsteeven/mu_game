@@ -3,6 +3,7 @@ import random
 from map.config_room import Adapter
 from map.create_map import PatCreator
 from map.map import Map
+from entities.player import Player
 
 
 class GameManager:
@@ -30,13 +31,20 @@ class GameManager:
             print("Файл с данными не найден.")
         except json.JSONDecodeError:
             print("Ошибка при чтении JSON файла.")
+        
+        player = Player(self)
+        
 
-    def update(self, notify_message, *args, **kwargs):
-        # В зависимости от сообщения, сделать какое-то взаимодействие игры и персонажа
-        match notify_message:
-            case "lose":
+    def update(self, notify_message : str, *args, **kwargs):
+        match (notify_message):
+            case ("lose"):
                 if self.ending_phrases:
                     phrase = random.choice(self.ending_phrases)["dialogue"]
                     print(phrase)
                 else:
                     print("Нет доступных концовочных фраз.")
+            case ("move"):
+                self.change_player_position(*args, **kwargs)
+    
+    def change_player_position(self, position):
+        pass

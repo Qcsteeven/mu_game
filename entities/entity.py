@@ -5,14 +5,14 @@ from management.game_manager import GameManager
 
 class Entity(ABC):
 
-    def __init__(self, game_manager : GameManager, room: Room):
+    def __init__(self, game_manager : GameManager):
         self._name : str = "Entity"
         self._health : int = 100
         self._inventory : list[Object]  = []
         self._damage : int = 1
-        self._subscribers : list[Room | 'Entity' | Object] = [room, game_manager]
+        self._subscribers : list[GameManager | Room | 'Entity' | Object] = [game_manager]
         self._position : tuple[int] =  (0,0)
-        self._room = room
+        self._room : Room | None = None
         self.game_manager = game_manager
 
     @abstractmethod
@@ -64,7 +64,7 @@ class Entity(ABC):
 
     @property
     def inventory(self):
-        return self.inventory
+        return self._inventory
         
     @inventory.setter
     def inventory(self, value : list[Object]):
@@ -77,7 +77,7 @@ class Entity(ABC):
 
     @damage.setter
     def danage(self, value : int):
-        self.damage = value
+        self._damage = value
         
     
     @property
