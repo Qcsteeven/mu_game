@@ -13,7 +13,7 @@ class Player(Entity):
         
     def action(self, kind : str, *args, **kwargs) -> None:
         if type(args[0]) is Entity:
-            self.subscribe(entity)
+            self.subscribe(args[0])
         match (kind):
             case ("attack"):
                 self.attack(*args, **kwargs)
@@ -26,7 +26,7 @@ class Player(Entity):
             case (_):
                 print("Хммм... Я так не умею")
         if type(args[0]) is Entity:
-            self.unsubscribe(entity)
+            self.unsubscribe(args[0])
     
     def use_inventory(self) -> None:
         pass
@@ -48,7 +48,7 @@ class Player(Entity):
         new_thing = entity.trading(self._money, thing)
         if new_thing:
             self.inventory.append(new_thing)
-            self._money -= new_thing.cost
+            self._money -= new_thing.price
             
     def move(self, kind : str, *args, **kwargs):
         new_pos = tuple()
