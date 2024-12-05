@@ -5,13 +5,14 @@ from ..management.game_manager import GameManager
 
 class Entity(ABC):
 
-    def __init__(self, game_manager : GameManager, name : str, health : int, damage : int, room: Room, inventory: list[Object], subscribers: list[Room | 'Entity' | Object]):
-        self._name = name
-        self._health = health
+    def __init__(self, game_manager : GameManager, room: Room):
+        self._name : str = "Entity"
+        self._health : int = 100
+        self._inventory : list[Object]  = []
+        self._damage : int = 1
+        self._subscribers : list[Room | 'Entity' | Object] = [room, game_manager]
+        self._position : tuple[int] =  (0,0)
         self._room = room
-        self._inventory = inventory
-        self._damage = damage
-        self._subscribers = subscribers
         self.game_manager = game_manager
 
     @abstractmethod
@@ -86,3 +87,13 @@ class Entity(ABC):
     @subscribers.setter
     def subscribers(self, value : list[Room | 'Entity' | Object]):
         self._subscribers = value  
+
+    
+    @property
+    def position(self):
+        return self._position
+    
+    @position.setter
+    def position(self, value : tuple[int]):
+        self._position = value       
+        
