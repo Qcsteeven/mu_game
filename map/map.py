@@ -27,12 +27,20 @@ class Map:
         for i in range(leng):
             for j in range(len(pattern[i])):
                 if pattern[i][j] == 's':
-                    self._map[i].append(Shop(True, [trader(game_manager)], [], []))
+                    shop = Shop(True,[],[],[])
+                    tr = trader(game_manager)
+                    tr.room = shop
+                    shop.creations.append(tr)
+                    self._map[i].append(shop)
                 elif pattern[i][j] == 'a':
                     armory = Armory(True, [], [], [])
                     self._map[i].append(armory)
                 elif pattern[i][j] == 'd':
-                    self._map[i].append(Dungeon(False, [robber(game_manager, random.choice(["common", "rare", "epic"]))], [], []))
+                    dungeon = Dungeon(False,[],[],[])
+                    rb = robber(game_manager, random.choice["common", "rare", "epic"])
+                    rb.room = dungeon
+                    dungeon.creations.append(rb)
+                    self._map[i].append(dungeon)
                 elif pattern[i][j] == "B":
                     self._map[i].append(EmptyRoom(True, [], [], []))
                 elif pattern[i][j] == '-':
