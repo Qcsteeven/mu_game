@@ -5,6 +5,8 @@ if TYPE_CHECKING:
 	from map.room import Room
 	from objects.objects import Object
 from entities.entity import Entity
+from objects.objects import *
+import os
 
 class NPC(Entity):
 	def __init__(self, game_manager: GameManager):
@@ -66,6 +68,11 @@ class trader(NPC):
 				print()
 
 class robber(NPC):
+	def __init__(self, game_manager):
+		super().__init__(game_manager)
+		items = load_items_from_json("../management/text.JSON")
+		self.inventory.append(items)
+		pass
 	def action(self, entity : 'Entity', kind : str) -> None:
 		pass
 

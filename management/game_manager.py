@@ -4,7 +4,7 @@ from map.config_room import Adapter
 from map.create_map import PatCreator
 from map.map import Map
 from entities.player import Player
-from entities.npc import robber 
+from entities.npc import robber
 
 
 class GameManager:
@@ -21,7 +21,7 @@ class GameManager:
             return
         GameManager.isCreated = True
         settings = Adapter.adapt("config.json")
-        pattern = PatCreator.create_2d_array(settings["rows"],settings["cols"],settings["d_count"])
+        pattern = PatCreator.create_2d_array(settings["rows"], settings["cols"], settings["d_count"])
         self._entities = [robber(GameManager)]
         self._map = Map(pattern, self._entities)
         try:
@@ -32,20 +32,38 @@ class GameManager:
             print("Файл с данными не найден.")
         except json.JSONDecodeError:
             print("Ошибка при чтении JSON файла.")
-        
+
         self.player = Player(self)
         self.player.room = self._map.get_room(0, 0)
-        self.menu()
-        
-    def menu(self):
-        print("Приветствуем в игре mu_game")
-        name = input("Выберите имя: ")
-        self.player.name = name
-        while True:
-            direction = input("Выберите направление движения (направо\налево\вверх\вниз): ")
-            self.player.action("move", "step", direction)
 
-    def update(self, notify_message : str, *args, **kwargs):
+    def check_player_position(self):
+        x, y = self.player.position
+        current_room = self._map.get_room(x, y)
+        print("Вы пришли в комнату: ", current_room)
+        print("Из нее вы можете пойти в: ", self._map.avail_directions(x, y))
+
+    def new_game(self):
+        print("Добро пожаловать в подземелье")
+        print("Выберите имя: ")
+        name = input()
+        self.player.name = name
+
+    def menu(self):
+        while True:
+            print("Выберите действие: walk, attack, trade")
+            action = input()
+            match action:
+                case ("walk"):
+                    print("Выберите направление, куда вы хотите пойти: ")
+                    direction = input()
+                    self.player.action("move", "step", direction)
+                case ("attack"):
+                    print("Ты слишком слаб, чтобы драться")
+                case ("trade"):
+                    print("Сегодня шаббат")
+            self.check_player_position()
+
+    def update(self, notify_message: str, *args, **kwargs):
         match (notify_message):
             case ("lose"):
                 if self.ending_phrases:
@@ -54,11 +72,14 @@ class GameManager:
                     print("Нет доступных концовочных фраз.")
             case ("move"):
                 self.change_player_position(*args, **kwargs)
-    
+            case ("kill"):
+                pass
+
+    def start_fight(self):
+        pass
+
     def change_player_position(self, position, *args):
         size_x, size_y = self._map.map_size()
         x, y = position
-        if -1 < x and x < size_x  and -1 < y and y < size_y:
+        if -1 < x and x < size_x and -1 < y and y < size_y:
             self.player.position = position
-            
-            
