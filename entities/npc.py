@@ -1,8 +1,11 @@
 from entity import Entity
-
+from management.game_manager import GameManager
+from map.room import Room
+from objects.objects import Object
 
 class NPC(Entity):
-	def __init__(self):
+	def __init__(self, game_manager: GameManager, room: Room):
+		super().__init__(game_manager, room)
 		print(f'появился {Entity.name}')
 	def action(self, entity : Entity, kind : str) -> None:
 		pass
