@@ -1,6 +1,6 @@
 class Player:
-    def __init__(self, game_manager : GameManager, name : str, health : int, damage : int, room: Room, inventory: list[Object], subscribers: list[Room | Entity | Object]):
-        super().__init__(game_manager, name, health, damage, room, inventory, subscribers)
+    def __init__(self, game_manager : GameManager, room: Room):
+        super().__init__(game_manager, room)
         self._money = 0
         
     def action(self, entity : Entity, kind : str, *args, **kwargs) -> None:
@@ -26,6 +26,10 @@ class Player:
         if new_thing:
             self.inventory.append(new_thing)
             self._money -= new_thing.cost
+            
+    def move(self, kind : str, *args, **kwargs):
+        pass
+        
     
     @property
     def money(self):

@@ -11,13 +11,12 @@ class NPC(Entity):
 	
 	
 class trader(NPC):
-	def __init__(self, game_manager: GameManager, name: str, health: int, damage: int, room: Room,
-	             inventory: list[Object], subscribers: list[Room | Entity | Object]):
-		super().__init__(game_manager, name, health, damage, room, inventory, subscribers)
+	def __init__(self, game_manager : GameManager, room: Room):
+		super().__init__(game_manager, room)
 	
 	def action(self, entity : Entity, kind : str) -> None:
-        pass
-    
+		pass
+
 	def use_inventory(self) -> Object:
 		pass
 	def trading(self, money, name_bread):
