@@ -1,10 +1,11 @@
 import json
 from abc import ABC, abstractmethod
-
+import random
 
 # Базовый класс
 class Object(ABC):
-    def __init__(self, name, description, quality, price):
+    def __init__(self, item_type, name, description, quality, price):
+        self.item_type = item_type
         self.name = name
         self.description = description
         self.quality = quality
@@ -17,12 +18,13 @@ class Object(ABC):
 
 # Класс Potion
 class Potion(Object):
-    def __init__(self, name, description, quality, healing, price):
-        super().__init__(name, description, quality, price)
+    def __init__(self, item_type, name, description, quality, healing, price):
+        super().__init__(item_type, name, description, quality, price)
         self.healing = healing
 
     def create_object(self):
         return {
+            "type": self.item_type,
             "name": self.name,
             "description": self.description,
             "quality": self.quality,
@@ -33,12 +35,13 @@ class Potion(Object):
 
 # Класс Armor
 class Armor(Object):
-    def __init__(self, name, description, quality, defense, price):
-        super().__init__(name, description, quality, price)
+    def __init__(self, item_type, name, description, quality, defense, price):
+        super().__init__(item_type, name, description, quality, price)
         self.defense = defense
 
     def create_object(self):
         return {
+            "type": self.item_type,
             "name": self.name,
             "description": self.description,
             "quality": self.quality,
@@ -49,12 +52,13 @@ class Armor(Object):
 
 # Класс Weapon
 class Weapon(Object):
-    def __init__(self, name, description, quality, attack, price):
-        super().__init__(name, description, quality, price)
+    def __init__(self, item_type, name, description, quality, attack, price):
+        super().__init__(item_type, name, description, quality, price)
         self.attack = attack
 
     def create_object(self):
         return {
+            "type": self.item_type,
             "name": self.name,
             "description": self.description,
             "quality": self.quality,
@@ -72,13 +76,21 @@ def load_items_from_json(filename):
     for item_type, objects in data["items"].items():
         for obj in objects:
             if item_type == "healing_potion":
-                items.append(Potion(obj["name"], obj["description"], obj["quality"], obj["healing"], obj["price"]))
+                items.append(Potion("healing_potion", obj["name"], obj["description"], obj["quality"], obj["healing"],
+                                    obj["price"]))
             elif item_type == "armor":
-                items.append(Armor(obj["name"], obj["description"], obj["quality"], obj["defense"], obj["price"]))
+                items.append(Armor("armor", obj["name"], obj["description"], obj["quality"], obj["defense"],
+                                   obj["price"]))
             elif item_type == "sword":
-                items.append(Weapon(obj["name"], obj["description"], obj["quality"], obj["attack"], obj["price"]))
+                items.append(Weapon("sword", obj["name"], obj["description"], obj["quality"], obj["attack"],
+                                    obj["price"]))
 
     return items
+
+
+def return_item():
+    items = load_items_from_json("../management/text.json")
+    return random.choice(items).create_object()
 
 
 # Пример использования
