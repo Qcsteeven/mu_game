@@ -58,7 +58,7 @@ class GameManager:
         x, y = self.player.position
         current_room = self._map.get_room(x, y)
         print("Тип комнаты, в которую вы вошли: ", current_room.type)
-        print("Ваша комната наполнена существами ", current_room.creations)
+        print("Ваша комната наполнена существами ", *[elem.name for elem in current_room.creations])
 
     def new_game(self):
         print("Добро пожаловать в подземелье")
