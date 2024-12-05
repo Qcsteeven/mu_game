@@ -1,8 +1,11 @@
 from entity import Entity
-
+from management.game_manager import GameManager
+from map.room import Room
+from objects.objects import Object
 
 class NPC(Entity):
-	def __init__(self):
+	def __init__(self, game_manager: GameManager, room: Room):
+		super().__init__(game_manager, room)
 		print(f'появился {Entity.name}')
 	def action(self, entity : Entity, kind : str) -> None:
 		pass
@@ -11,13 +14,12 @@ class NPC(Entity):
 	
 	
 class trader(NPC):
-	def __init__(self, game_manager: GameManager, name: str, health: int, damage: int, room: Room,
-	             inventory: list[Object], subscribers: list[Room | Entity | Object]):
-		super().__init__(game_manager, name, health, damage, room, inventory, subscribers)
+	def __init__(self, game_manager : GameManager, room: Room):
+		super().__init__(game_manager, room)
 	
 	def action(self, entity : Entity, kind : str) -> None:
-        pass
-    
+		pass
+
 	def use_inventory(self) -> Object:
 		pass
 	def trading(self, money, name_bread):
