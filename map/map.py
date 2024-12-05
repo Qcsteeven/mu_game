@@ -1,7 +1,6 @@
-from map.room import Room, Shop, Dungeon
-from entities.entity import Entity 
+from map.room import *
 import random
-
+from entities.entity import Entity
 
 class Map:
     _instance = None
@@ -20,23 +19,22 @@ class Map:
         self.rows = leng
         self.cols = len(pattern[0])
         self._map = [[] for _ in range(leng)]
-
         for i in range(leng):
-            for j in range(len(self._map[i])):
-                if self._map[i][j] == 's':
-                    self._map[i][j] = Shop(True, ["Shop"], [], [])
-                elif self._map[i][j] == 'd':
+            for j in range(len(pattern[i])):
+                if pattern[i][j] == 's':
+                    self._map[i].append(Shop(True, ["Shop"], [], []))
+                elif pattern[i][j] == 'd':
                     enemy = random.choice(Entities)
-                    self._map[i][j] = Dungeon(False, [enemy], [], [])
+                    self._map[i].append(Dungeon(False, [enemy], [], []))
                 else:
                     issafe = random.randint(0, 1)
                     if issafe == 1:
-                        self._map[i][j] = Shop(True, ["Shop"], [], [])
+                        self._map[i].append(Shop(True, ["Shop"], [], []))
                     else:
                         enemy = random.choice(Entities)
-                        self._map[i][j] = Dungeon(False, [enemy], [], [])
+                        self._map[i].append(Dungeon(False, [enemy], [], []))
 
-    def get_room(self, x_pos: int, y_pos: int) -> Room:
+    def get_room(self, x_pos: int, y_pos: int):
         return self._map[x_pos][y_pos]
 
     def avail_directions(self, x_pos: int, y_pos: int):

@@ -34,7 +34,7 @@ class GameManager:
             print("Ошибка при чтении JSON файла.")
         
         self.player = Player(self)
-        #self.player.room = self._map.get_room(0, 0)
+        self.player.room = self._map.get_room(0, 0)
         self.menu()
         
     def menu(self):
