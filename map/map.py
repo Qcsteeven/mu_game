@@ -16,6 +16,8 @@ class Map:
             return
         Map._isCreated = True
         leng = len(pattern)
+        self.rows = leng
+        self.cols = len(pattern[0])
         self._map = [''] * leng
         for i in range(leng):
             self._map[i] = pattern[i].copy()
@@ -36,3 +38,13 @@ class Map:
 
     def get_room(self, x_pos, y_pos):
         return self._map[x_pos][y_pos]
+
+    def avail_directions(self, x_pos, y_pos):
+        up = 1 if x_pos > 0 else 0
+        down = 1 if x_pos < self.rows-1 else 0
+        left = 1 if y_pos > 0 else 0
+        right = 1 if y_pos < self.rows-1 else 0
+        return up, down, left, right
+
+    def map_size(self):
+        return self.rows, self.cols
