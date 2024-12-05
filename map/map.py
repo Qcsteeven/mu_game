@@ -18,25 +18,23 @@ class Map:
         leng = len(pattern)
         self.rows = leng
         self.cols = len(pattern[0])
-        self._map = [''] * leng
+        self._map = [[] for _ in range(leng)]
         for i in range(leng):
-            self._map[i] = pattern[i].copy()
-        for i in range(leng):
-            for j in range(len(self._map[i])):
-                if self._map[i][j] == 's':
-                    self._map[i][j] = Room(True, ["Shop"], [], [])
-                elif self._map[i][j] == 'd':
+            for j in range(len(pattern[i])):
+                if pattern[i][j] == 's':
+                    self._map[i].append(Room(True, ["Shop"], [], []))
+                elif pattern[i][j] == 'd':
                     enemy = random.choice(Entities)
-                    self._map[i][j] = Room(False, [enemy], [], [])
+                    self._map[i].append(Room(False, [enemy], [], []))
                 else:
                     issafe = random.randint(0, 1)
                     if issafe == 1:
-                        self._map[i][j] = Room(True, ["Shop"], [], [])
+                        self._map[i].append(Room(True, ["Shop"], [], []))
                     else:
                         enemy = random.choice(Entities)
-                        self._map[i][j] = Room(False, [enemy], [], [])
+                        self._map[i].append(Room(False, [enemy], [], []))
 
-    def get_room(self, x_pos: int, y_pos: int):
+    def get_room(self, x_pos: int, y_pos: int) -> Room:
         return self._map[x_pos][y_pos]
 
     def avail_directions(self, x_pos: int, y_pos: int):
