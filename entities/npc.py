@@ -55,7 +55,7 @@ class trader(NPC):
 
     def sell(self, bread: Object):
         confirm = input(
-            f'вы точно хатите продать {bread} за {bread.price // 1.2} РУБЛЕЙ (что бы подтвердить в ведите <да>)')
+            f'вы точно хотите продать {bread} за {bread.price // 1.2} РУБЛЕЙ (что бы подтвердить в ведите <да>)')
         if confirm.lower() == 'да':
             self.inventory = self.inventory + bread
             return bread.price // 1.2
@@ -72,6 +72,14 @@ class trader(NPC):
 
 
 class robber(NPC):
+    def __init__(self, game_manager : GameManager, rarity : str):
+        super().__init__(game_manager)
+        self.inventory = load_set_items_npc_json(rarity, 'management/text.JSON')
+        for i in self.inventory:
+            if i.item_type == 'armor':
+                self.armor = i.defense
+            if i.item_type == 'sword':
+                self.damage = i.attack
     def action(self, entity: 'Entity', kind: str) -> None:
         pass
 

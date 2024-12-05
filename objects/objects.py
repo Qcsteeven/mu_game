@@ -66,7 +66,21 @@ class Weapon(Object):
             "price": self.price
         }
 
-
+def load_set_items_npc_json(stri : str, filename : str):
+    with open(filename, 'r', encoding='utf-8') as file:
+        data = json.load(file)
+    items = []
+    for item_type, objects in data["items"].items():
+        if item_type == 'armor' or item_type == 'sword':
+            for obj in objects:
+                if (obj['quality'] == stri):
+                    if item_type == "armor":
+                        items.append(Armor("armor", obj["name"], obj["description"], obj["quality"], obj["defense"],
+                                           obj["price"]))
+                    else:
+                        items.append(Weapon("sword", obj["name"], obj["description"], obj["quality"], obj["attack"],
+                                            obj["price"]))
+    return items
 # Функция загрузки данных из JSON
 def load_items_from_json(filename):
     with open(filename, 'r', encoding='utf-8') as file:
