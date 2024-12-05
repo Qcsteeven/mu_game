@@ -1,17 +1,18 @@
 from abc import ABC, abstractmethod
-from ..map.room import Room
-from ..objects.objects import Object
-from ..management.game_manager import GameManager
+from map.map import Room
+from objects.objects import Object
+from management.game_manager import GameManager
 
 class Entity(ABC):
 
-    def __init__(self, game_manager : GameManager, name : str, health : int, damage : int, room: Room, inventory: list[Object], subscribers: list[Room | 'Entity' | Object]):
-        self._name = name
-        self._health = health
-        self._room = room
-        self._inventory = inventory
-        self._damage = damage
-        self._subscribers = subscribers
+    def __init__(self, game_manager : GameManager):
+        self._name : str = "Entity"
+        self._health : int = 100
+        self._inventory : list[Object]  = []
+        self._damage : int = 1
+        self._subscribers : list[GameManager | Room | 'Entity' | Object] = [game_manager]
+        self._position : tuple[int] =  (0,0)
+        self._room : Room | None = None
         self.game_manager = game_manager
 
     @abstractmethod
@@ -63,7 +64,7 @@ class Entity(ABC):
 
     @property
     def inventory(self):
-        return self.inventory
+        return self._inventory
         
     @inventory.setter
     def inventory(self, value : list[Object]):
@@ -76,7 +77,7 @@ class Entity(ABC):
 
     @damage.setter
     def danage(self, value : int):
-        self.damage = value
+        self._damage = value
         
     
     @property
@@ -86,3 +87,13 @@ class Entity(ABC):
     @subscribers.setter
     def subscribers(self, value : list[Room | 'Entity' | Object]):
         self._subscribers = value  
+
+    
+    @property
+    def position(self):
+        return self._position
+    
+    @position.setter
+    def position(self, value : tuple[int]):
+        self._position = value       
+        
