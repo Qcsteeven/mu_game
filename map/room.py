@@ -15,6 +15,7 @@ class Room(ABC):
         self.creations = creations
         self.objects = objects
         self.room_effect = room_effect
+        self.visited = False
 
     @abstractmethod
     def update(self) -> None:
