@@ -1,18 +1,21 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from map.room import Room
+    from objects.objects import Object
+    from management.game_manager import GameManager
+    
 from abc import ABC, abstractmethod
-from map.map import Room
-from objects.objects import Object
-from management.game_manager import GameManager
-
 class Entity(ABC):
-
-    def __init__(self, game_manager : GameManager, room: Room):
+    
+    def __init__(self, game_manager : GameManager):
         self._name : str = "Entity"
         self._health : int = 100
         self._inventory : list[Object]  = []
         self._damage : int = 1
-        self._subscribers : list[Room | 'Entity' | Object] = [room, game_manager]
+        self._subscribers : list[GameManager | Room | 'Entity' | Object] = [game_manager]
         self._position : tuple[int] =  (0,0)
-        self._room = room
+        self._room : Room | None = None
         self.game_manager = game_manager
 
     @abstractmethod
@@ -30,9 +33,9 @@ class Entity(ABC):
         if subscriber in self._subscribers:
             self._subscribers.remove(subscriber)
     
-    def notify(self, action : str) -> None:
+    def notify(self, action : str, *args, **kwargs) -> None:
         for elem in self._subscribers:
-            elem.update(action)
+            elem.update(action, *args, **kwargs)
     
     
     @property
@@ -64,7 +67,7 @@ class Entity(ABC):
 
     @property
     def inventory(self):
-        return self.inventory
+        return self._inventory
         
     @inventory.setter
     def inventory(self, value : list[Object]):
@@ -77,7 +80,7 @@ class Entity(ABC):
 
     @damage.setter
     def danage(self, value : int):
-        self.damage = value
+        self._damage = value
         
     
     @property
