@@ -4,7 +4,9 @@ from collections import defaultdict
 from typing import Callable
 
 
-class Effect:fects_room = ["dark", "treasury", "healing", "lock"]
+class Effect:
+
+    effects_room = ["dark", "treasury", "healing", "lock"]
 
     def __init__(self, dict_rooms_determined_effect : dict):
         self.dict_rooms_determined_effect = dict_rooms_determined_effect # комнаты, которые точно будут с этим эффектом
