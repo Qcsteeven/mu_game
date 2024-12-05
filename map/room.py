@@ -1,9 +1,11 @@
-from abc import ABC, abstractmethod
-
-from entities.entity import Entity
-from objects.objects import Object
-from map.room import Room
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from entities.entity import Entity
+    from objects.objects import Object
+    from map.room import Room
 from map.effects import Effect
+from abc import ABC, abstractmethod
 
 class Room(ABC):
     def __init__(self, isSafe: bool, creations: list[Entity], objects: list[Objects], room_effect: list[Effect]):
@@ -37,6 +39,12 @@ class Armory(Room):
           
        for effect in self.roomEffect:
            effect.update()
+    
+    def apply_effect(self) -> None:
+       pass
+       
+    def discharge_effect(self) -> None:
+       pass
 
 
 class Shop(Room):
@@ -52,7 +60,12 @@ class Shop(Room):
     def hello_message(self, player: Player):
         if self == player.room:
             print("Добро пожаловать в {self.type}")
-        
+    
+    def apply_effect(self) -> None:
+       pass
+       
+    def discharge_effect(self) -> None:
+       pass
         
 
 class Dungeon(Room):
