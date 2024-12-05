@@ -1,6 +1,7 @@
 from map.room import *
 import random
-from entities.entity import Entity
+from entities.npc import trader, robber
+from management.game_manager import GameManager
 
 
 class Map:
@@ -12,7 +13,7 @@ class Map:
             cls._instance = super(Map, cls).__new__(cls)
         return cls._instance
 
-    def __init__(self, pattern: list[list[str]], Entities: list[Entity]):
+    def __init__(self, pattern: list[list[str]], game_manager: GameManager):
         if Map._isCreated == True:
             return
         Map._isCreated = True
@@ -26,12 +27,12 @@ class Map:
         for i in range(leng):
             for j in range(len(pattern[i])):
                 if pattern[i][j] == 's':
-                    self._map[i].append(Shop(True, [], [], []))
+                    self._map[i].append(Shop(True, [trader(game_manager)], [], []))
                 elif pattern[i][j] == 'a':
-                    self._map[i].append(Armory(True, [], [], []))
+                    armory = Armory(True, [], [], [])
+                    self._map[i].append(armory)
                 elif pattern[i][j] == 'd':
-                    enemy = random.choice(Entities)
-                    self._map[i].append(Dungeon(False, [enemy], [], []))
+                    self._map[i].append(Dungeon(False, [robber(game_manager, random.choice(["common", "rare", "epic"]))], [], []))
                 elif pattern[i][j] == "B":
                     self._map[i].append(EmptyRoom(True, [], [], []))
                 elif pattern[i][j] == '-':
