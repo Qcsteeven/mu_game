@@ -33,3 +33,6 @@ class Map:
                     else:
                         enemy = random.choice(Entities)
                         self._map[i][j] = Room(False, [enemy], [], [])
+
+    def get_room(self, x_pos, y_pos):
+        return self._map[x_pos][y_pos]
