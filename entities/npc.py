@@ -4,13 +4,16 @@ from map.room import Room
 from objects.objects import Object
 
 class NPC(Entity):
-	def __init__(self, game_manager: GameManager, room: Room):
-		super().__init__(game_manager, room)
+	def __init__(self, game_manager: GameManager):
+		super().__init__(game_manager)
 		print(f'появился {Entity.name}')
-	def action(self, entity : Entity, kind : str) -> None:
+  
+	def action(self, entity : 'Entity', kind : str) -> None:
 		pass
+
 	def use_inventory(self) -> Object:
 		pass
+
 	def __del__(self):
 		print(f'{self.name} убит')
 	
@@ -19,11 +22,12 @@ class trader(NPC):
 	def __init__(self, game_manager : GameManager, room: Room):
 		super().__init__(game_manager, room)
 	
-	def action(self, entity : Entity, kind : str) -> None:
+	def action(self, entity : 'Entity', kind : str) -> None:
 		pass
 
 	def use_inventory(self) -> Object:
 		pass
+
 	def trading(self, money, name_bread):
 		if name_bread in self.inventory and self.inventory[name_bread].cost <= money:
 			confirm = input(
@@ -41,6 +45,7 @@ class trader(NPC):
 			else:
 				print(f'Вам не хватает {self.inventory[name_bread].cost - money}')
 			return None
+
 	def sell(self, bread : Object):
 		confirm = input(f'вы точно хатите продать {bread} за {bread.cost // 1.2} РУБЛЕЙ (что бы подтвердить в ведите <да>)')
 		if confirm.lower() == 'да':
@@ -48,6 +53,7 @@ class trader(NPC):
 			return bread.cost // 1.2
 		else:
 			return 0
+
 	def shop_show(self):
 		num = 1
 		for i in self.inventory:
@@ -57,17 +63,21 @@ class trader(NPC):
 				print()
 
 class robber(NPC):
-	def action(self, entity : Entity, kind : str) -> None:
+	def action(self, entity : 'Entity', kind : str) -> None:
 		pass
+
 	def use_inventory(self) -> Object:
 		pass
-	def underattack(self, entity : Entity, damage : int):
+
+	def underattack(self, entity : 'Entity', damage : int):
 		entity.health =- damage
 		if entity.health <= 0:
 			entity.notify("lose")
-	def kill(self, entity : Entity):
+   
+	def kill(self, entity : 'Entity'):
 		entity.inventory = entity.inventory + self.inventory
 		self.__del__()
+  
 	def update(self, notifi_message, *args, **kwargs):
 		match notifi_message:
 			case "kill":

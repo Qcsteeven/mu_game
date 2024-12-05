@@ -4,11 +4,11 @@ from objects.objects import Object
 from entities.entity import Entity 
 
 class Player:
-    def __init__(self, game_manager : GameManager, room: Room):
-        super().__init__(game_manager, room)
+    def __init__(self, game_manager : GameManager):
+        super().__init__(game_manager)
         self._money = 0
         
-    def action(self, entity : Entity, kind : str, *args, **kwargs) -> None:
+    def action(self, entity : 'Entity', kind : str, *args, **kwargs) -> None:
         self.subscribe(entity)
         match (kind):
             case ("attack"):
@@ -23,20 +23,20 @@ class Player:
                 print("Хммм... Я так не умею")
         self.unsubscribe(entity)
 
-    def attack(self, entity : Entity, damage : int) -> None:
+    def attack(self, entity : 'Entity', damage : int) -> None:
         if entity.health - damage > 0:
             entity.health -= damage
         else:
             entity.health = 0
             entity.notify("kill", entity)
             
-    def sell(self, entity : Entity, thing : Object):
+    def sell(self, entity : 'Entity', thing : Object):
         money = entity.sell(thing)
         if money:
             self._money += money
             self.inventaty.remove(thing)        
 
-    def buy(self, entity : Entity, thing : str) -> None:
+    def buy(self, entity : 'Entity', thing : str) -> None:
         new_thing = entity.trading(self._money, thing)
         if new_thing:
             self.inventory.append(new_thing)
