@@ -22,18 +22,14 @@ class Map:
         for i in range(leng):
             for j in range(len(pattern[i])):
                 if pattern[i][j] == 's':
-                    self._map[i].append(Shop(True, ["Shop"], [], []))
+                    self._map[i].append(Shop(True, [], [], []))
+                elif pattern[i][j] == 'a':
+                    self._map[i].append(Armory(True, [], [], []))
                 elif pattern[i][j] == 'd':
                     enemy = random.choice(Entities)
                     self._map[i].append(Dungeon(False, [enemy], [], []))
-                else:
-                    issafe = random.randint(0, 1)
-                    if issafe == 1:
-                        self._map[i].append(Shop(True, ["Shop"], [], []))
-                    else:
-                        enemy = random.choice(Entities)
-                        self._map[i].append(Dungeon(False, [enemy], [], []))
-
+                elif pattern[i][j] == '-':
+                    self._map[i].append(EmptyRoom(True, [], [], []))
     def get_room(self, x_pos: int, y_pos: int):
         return self._map[x_pos][y_pos]
 
@@ -46,3 +42,12 @@ class Map:
 
     def map_size(self):
         return self.rows, self.cols
+
+    def show_map(self, pos):
+        x, y = pos
+        arr = [['O']*self.cols for i in range(self.rows)]
+        arr[x][y] = "X"
+        for i in arr:
+            print(*i)
+
+
