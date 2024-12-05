@@ -46,8 +46,8 @@ class Shop(Room):
            obj.update()
 
 
-class Dangeon(Room):
-    type = "Dangeon"
+class Dungeon(Room):
+    type = "Dungeon"
     def update(self):
        for creation in self.creations:
             creation.update()

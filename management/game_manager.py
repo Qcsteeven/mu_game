@@ -31,7 +31,8 @@ class GameManager:
             print("Файл с данными не найден.")
         except json.JSONDecodeError:
             print("Ошибка при чтении JSON файла.")
-            
+        
+        player = Player(self)
         
 
     def update(self, notify_message : str, *args, **kwargs):
