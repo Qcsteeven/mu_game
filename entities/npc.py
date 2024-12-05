@@ -1,4 +1,4 @@
-from entity import Entity
+from entities.entity import Entity
 from management.game_manager import GameManager
 from map.room import Room
 from objects.objects import Object
