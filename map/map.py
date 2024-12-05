@@ -58,7 +58,6 @@ class Map:
             for j in range(self.cols):
                 if self._map[i][j].visited:
                     arr[i][j]=self.pattern[i][j]
-                    print(self.pattern[i][j])
         arr[x][y] = "X"
         for i in arr:
             print(*i)
