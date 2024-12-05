@@ -102,6 +102,7 @@ class GameManager:
         if position != ():
             x, y = position
             if -1 < x and x < size_x  and -1 < y and y < size_y:
+                self._map.make_visited(x, y)
                 self.player.position = position
                 self._map.show_map(position)
             
