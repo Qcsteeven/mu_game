@@ -32,7 +32,8 @@ class GameManager:
         except json.JSONDecodeError:
             print("Ошибка при чтении JSON файла.")
         
-        player = Player(self)
+        self.player = Player(self)
+        self.player.room = self._map.get_room(0, 0)
         
 
     def update(self, notify_message : str, *args, **kwargs):
@@ -40,11 +41,15 @@ class GameManager:
             case ("lose"):
                 if self.ending_phrases:
                     phrase = random.choice(self.ending_phrases)["dialogue"]
-                    print(phrase)
                 else:
                     print("Нет доступных концовочных фраз.")
             case ("move"):
                 self.change_player_position(*args, **kwargs)
     
     def change_player_position(self, position):
-        pass
+        size_x, size_y = self._map.get_room()
+        x, y = position
+        if -1 < x and x < size_x  and -1 < y and y < size_y:
+            self.player.position = position
+            
+            

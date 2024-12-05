@@ -42,14 +42,18 @@ class Armory(Room):
 class Shop(Room):
     type = "Shop"
 
-    def update(self):
-
-       for creation in self.creations:
-           creation.update()
-
-       for obj in self.objects:
-           obj.update()
-
+    def update(self, notify_message : str, *args, **kwargs):
+        match (notify_message):
+            case ("move"):
+                self.hello_message(*args, **kwargs)
+            case (_):
+                pass
+        
+    def hello_message(self, player: Player):
+        if self == player.room:
+            print("Добро пожаловать в {self.type}")
+        
+        
 
 class Dungeon(Room):
     type = "Dungeon"

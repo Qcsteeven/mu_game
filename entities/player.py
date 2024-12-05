@@ -57,6 +57,7 @@ class Player(Entity):
                     new_pos = (self.position[0], self.position[1] - 1)
                 case (_):
                     print("Вы остались на месте")
+                    
         else:
             new_pos = (args[0], args[1])
         self.notify("move", new_pos)
