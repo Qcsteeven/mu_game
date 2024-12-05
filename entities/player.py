@@ -3,9 +3,9 @@ from map.room import Room
 from objects.objects import Object
 from entities.entity import Entity 
 
-class Player:
-    def __init__(self, game_manager : GameManager):
-        super().__init__(game_manager)
+class Player(Entity):
+    def __init__(self, game_manager : GameManager, room: Room):
+        super().__init__(game_manager, room)
         self._money = 0
         
     def action(self, entity : 'Entity', kind : str, *args, **kwargs) -> None:
