@@ -37,9 +37,9 @@ class trader(NPC):
 			return tmp
 		else:
 			if name_bread in self.inventory:
-				print(f'ВЫ что то путаете у меня нет {name_bread}')
-			else:
 				print(f'Вам не хватает {self.inventory[name_bread].cost - money}')
+			else:
+				print(f'ВЫ что то путаете у меня нет {name_bread}')
 			return None
 	def sell(self, bread : Object):
 		confirm = input(f'вы точно хатите продать {bread} за {bread.cost // 1.2} РУБЛЕЙ (что бы подтвердить в ведите <да>)')
