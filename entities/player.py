@@ -68,13 +68,13 @@ class Player(Entity):
             direction = args[0]
             match (direction):
                 case ("left"):
-                    new_pos = (self.position[0] - 1, self.position[1])
-                case ("right"):
-                    new_pos = (self.position[0] + 1, self.position[1])
-                case ("up"):
-                    new_pos = (self.position[0], self.position[1] + 1)
-                case ("down"):
                     new_pos = (self.position[0], self.position[1] - 1)
+                case ("right"):
+                    new_pos = (self.position[0], self.position[1] + 1)
+                case ("up"):
+                    new_pos = (self.position[0] - 1, self.position[1])
+                case ("down"):
+                    new_pos = (self.position[0] + 1, self.position[1])
                 case (_):
                     print("Вы остались на месте")
         else:
