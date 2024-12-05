@@ -1,4 +1,4 @@
-from room import *
+from map.room import *
 import random
 
 
@@ -24,12 +24,15 @@ class Map:
                 if self._map[i][j] == 's':
                     self._map[i][j] = Room(True, ["Shop"], [], [])
                 elif self._map[i][j] == 'd':
-                    enemy = Entities[random.randint(0, len(Entities))]
+                    enemy = random.choice(Entities)
                     self._map[i][j] = Room(False, [enemy], [], [])
                 else:
                     issafe = random.randint(0, 1)
                     if issafe == 1:
                         self._map[i][j] = Room(True, ["Shop"], [], [])
                     else:
-                        enemy = Entities[random.randint(0, len(Entities))]
+                        enemy = random.choice(Entities)
                         self._map[i][j] = Room(False, [enemy], [], [])
+
+    def get_room(self, x_pos, y_pos):
+        return self._map[x_pos][y_pos]

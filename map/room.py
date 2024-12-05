@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+
 from entities.entity import Entity
 from objects.objects import Object
 from map.room import Room
@@ -25,7 +26,9 @@ class Room(ABC):
 
 class Armory(Room):
     type = "Armory"
+
     def update(self):
+
        for creation in self.creations:
            creation.update()
 
@@ -38,7 +41,9 @@ class Armory(Room):
 
 class Shop(Room):
     type = "Shop"
+
     def update(self):
+
        for creation in self.creations:
            creation.update()
 
