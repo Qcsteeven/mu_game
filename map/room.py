@@ -59,7 +59,8 @@ class Dungeon(Room):
 
        for obj in self.objects:
             obj.update()
-          
+
+    @Effect()
     def apply_effect(self):
        for effect in self.roomEffect:
             effect.update()
