@@ -57,8 +57,10 @@ class GameManager:
     
     def change_player_position(self, position, *args):
         size_x, size_y = self._map.map_size()
-        x, y = position
-        if -1 < x and x < size_x  and -1 < y and y < size_y:
-            self.player.position = position
+        if position != ():
+            x, y = position
+            if -1 < x and x < size_x  and -1 < y and y < size_y:
+                self.player.position = position
+                self._map.show_map(position)
             
             
