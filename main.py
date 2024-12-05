@@ -1,5 +1,8 @@
+from management.game_manager import GameManager
+
 def main():
-    pass
+    manager = GameManager()
+    manager.menu()    
 
 if __name__ == "__main__":
     main()
