@@ -4,10 +4,11 @@ from abc import ABC, abstractmethod
 
 # Базовый класс
 class Object(ABC):
-    def __init__(self, name, description, quality):
+    def __init__(self, name, description, quality, price):
         self.name = name
         self.description = description
         self.quality = quality
+        self.price = price
 
     @abstractmethod
     def create_object(self):
@@ -16,8 +17,8 @@ class Object(ABC):
 
 # Класс Potion
 class Potion(Object):
-    def __init__(self, name, description, quality, healing):
-        super().__init__(name, description, quality)
+    def __init__(self, name, description, quality, healing, price):
+        super().__init__(name, description, quality, price)
         self.healing = healing
 
     def create_object(self):
@@ -25,14 +26,15 @@ class Potion(Object):
             "name": self.name,
             "description": self.description,
             "quality": self.quality,
-            "healing": self.healing
+            "healing": self.healing,
+            "price": self.price
         }
 
 
 # Класс Armor
 class Armor(Object):
-    def __init__(self, name, description, quality, defense):
-        super().__init__(name, description, quality)
+    def __init__(self, name, description, quality, defense, price):
+        super().__init__(name, description, quality, price)
         self.defense = defense
 
     def create_object(self):
@@ -40,14 +42,15 @@ class Armor(Object):
             "name": self.name,
             "description": self.description,
             "quality": self.quality,
-            "defense": self.defense
+            "defense": self.defense,
+            "price": self.price
         }
 
 
 # Класс Weapon
 class Weapon(Object):
-    def __init__(self, name, description, quality, attack):
-        super().__init__(name, description, quality)
+    def __init__(self, name, description, quality, attack, price):
+        super().__init__(name, description, quality, price)
         self.attack = attack
 
     def create_object(self):
@@ -55,7 +58,8 @@ class Weapon(Object):
             "name": self.name,
             "description": self.description,
             "quality": self.quality,
-            "attack": self.attack
+            "attack": self.attack,
+            "price": self.price
         }
 
 
@@ -68,11 +72,11 @@ def load_items_from_json(filename):
     for item_type, objects in data["items"].items():
         for obj in objects:
             if item_type == "healing_potion":
-                items.append(Potion(obj["name"], obj["description"], obj["quality"], obj["healing"]))
+                items.append(Potion(obj["name"], obj["description"], obj["quality"], obj["healing"], obj["price"]))
             elif item_type == "armor":
-                items.append(Armor(obj["name"], obj["description"], obj["quality"], obj["defense"]))
+                items.append(Armor(obj["name"], obj["description"], obj["quality"], obj["defense"], obj["price"]))
             elif item_type == "sword":
-                items.append(Weapon(obj["name"], obj["description"], obj["quality"], obj["attack"]))
+                items.append(Weapon(obj["name"], obj["description"], obj["quality"], obj["attack"], obj["price"]))
 
     return items
 
