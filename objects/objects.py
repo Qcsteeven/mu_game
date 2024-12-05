@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 
 # Базовый класс
-class ObjectCreator(ABC):
+class Object(ABC):
     def __init__(self, name, description, quality):
         self.name = name
         self.description = description
@@ -15,7 +15,7 @@ class ObjectCreator(ABC):
 
 
 # Класс Potion
-class Potion(ObjectCreator):
+class Potion(Object):
     def __init__(self, name, description, quality, healing):
         super().__init__(name, description, quality)
         self.healing = healing
@@ -30,7 +30,7 @@ class Potion(ObjectCreator):
 
 
 # Класс Armor
-class Armor(ObjectCreator):
+class Armor(Object):
     def __init__(self, name, description, quality, defense):
         super().__init__(name, description, quality)
         self.defense = defense
@@ -45,7 +45,7 @@ class Armor(ObjectCreator):
 
 
 # Класс Weapon
-class Weapon(ObjectCreator):
+class Weapon(Object):
     def __init__(self, name, description, quality, attack):
         super().__init__(name, description, quality)
         self.attack = attack
