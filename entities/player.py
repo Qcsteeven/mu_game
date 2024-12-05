@@ -1,3 +1,8 @@
+from management.game_manager import GameManager
+from map.room import Room
+from objects.objects import Object
+from entities.entity import Entity 
+
 class Player:
     def __init__(self, game_manager : GameManager, room: Room):
         super().__init__(game_manager, room)
@@ -29,12 +34,7 @@ class Player:
         money = entity.sell(thing)
         if money:
             self._money += money
-            self.inventaty.remove(thing)
-            
-            
-            
-        
-        
+            self.inventaty.remove(thing)        
 
     def buy(self, entity : Entity, thing : str) -> None:
         new_thing = entity.trading(self._money, thing)

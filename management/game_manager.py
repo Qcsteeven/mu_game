@@ -1,5 +1,8 @@
 import json
 import random
+from map.config_room import Adapter
+from map.create_map import PatCreator
+from map.map import Map
 
 
 class GameManager:
@@ -15,9 +18,10 @@ class GameManager:
         if GameManager.isCreated:
             return
         GameManager.isCreated = True
-        # self._map = Map(settings)
-        # self._entities = []
-        self._map = ["Карта"]
+        settings = Adapter.adapt("config.json")
+        pattern = PatCreator.create_2d_array(settings["rows"],settings["cols"],settings["d_count"])
+        self._entities = []
+        self._map = Map(pattern, self._entities)
         try:
             with open('text.JSON', 'r', encoding='utf-8') as file:
                 data = json.load(file)
