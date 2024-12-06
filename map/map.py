@@ -40,6 +40,7 @@ class Map:
                     armory = Armory(True, [], [], [])
                     self._map[i].append(armory)
                 elif pattern[i][j] == 'd':
+
                     dungeon = Dungeon(False,[],[],[])
                     rb = robber(game_manager, random.choice(["common", "rare", "epic"]))
                     rb.room = dungeon

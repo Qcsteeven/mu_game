@@ -1,8 +1,5 @@
 import random
 
-from collections import defaultdict
-from typing import Callable
-
 
 class Effect:
     effects_room = ["dark", "treasury", "healing", "lock"]
@@ -10,11 +7,10 @@ class Effect:
     def __init__(self):
         pass
 
-    def __call__(self, func):
-        def wrapper(self, *args, **kwargs):
-            our_effect = random.choice(Effect.effects_room)
-            self.roomEffect = our_effect
-
-            return func(self, *args, **kwargs)
-
-        return wrapper
+    def __call__(self, cls):
+        class WrapperCls(cls):
+            def __init__(self, *args, **kwargs):
+                super().__init__(*args, **kwargs)
+                our_effect = random.choice(Effect.effects_room)
+                self.room_effect = our_effect
+        return WrapperCls

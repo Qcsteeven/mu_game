@@ -8,13 +8,17 @@ if TYPE_CHECKING:
 from map.effects import Effect
 from abc import ABC, abstractmethod
 
+
 class Room(ABC):
-    def __init__(self, isSafe: bool, creations: list[Entity], objects: list[Objects], room_effect: list[Effect]):
+    def __init__(self, isSafe: bool, creations: list[Entity], objects: list[Objects], room_effects: list[Effect], room_effect=None):
+
         self.isSafe = isSafe
         self.creations = creations
         self.objects = objects
         self.room_effect = room_effect
+
         self.visited = False
+
 
     @abstractmethod
     def update(self) -> None:
@@ -28,6 +32,7 @@ class Room(ABC):
     def discharge_effect(self) -> None:
         pass
 
+
 class Armory(Room):
     type = "Armory"
 
@@ -37,6 +42,7 @@ class Armory(Room):
                 self.hello_message(*args, **kwargs)
             case (_):
                 pass
+
 
     def hello_message(self, player: Player):
         if self == player.room:
@@ -62,12 +68,15 @@ class Shop(Room):
         if self == player.room:
             print("Добро пожаловать в магазин")
 
+
     def apply_effect(self) -> None:
         pass
 
     def discharge_effect(self) -> None:
         pass
 
+
+@Effect()
 class Dungeon(Room):
     type = "Dungeon"
 
@@ -78,13 +87,14 @@ class Dungeon(Room):
         for obj in self.objects:
             obj.update()
 
-    @Effect()
     def apply_effect(self):
         for effect in self.roomEffect:
             effect.update()
 
     def discharge_effect(self):
-        self.roomEffect = None
+
+        self.room_effect = None
+
 
 class EmptyRoom(Room):
     type = "EmptyRoom"
@@ -125,4 +135,3 @@ class BossRoom(Room):
 
     def discharge_effect(self) -> None:
         pass
-
