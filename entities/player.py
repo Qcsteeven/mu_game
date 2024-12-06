@@ -4,7 +4,7 @@ if TYPE_CHECKING:
     from management.game_manager import GameManager
     from map.room import Room
     from objects.objects import Object
-    from effects import Effect
+from entities.effects import Effect
 from entities.entity import Entity 
 
 class Player(Entity):

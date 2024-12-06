@@ -78,9 +78,9 @@ class robber(NPC):
         self.inventory = load_set_items_npc_json(rarity, 'management/text.JSON')
         for i in self.inventory:
             if i.item_type == 'armor':
-                self.armor = i.defense
+                self._armor = i.defense
             if i.item_type == 'sword':
-                self.damage = i.attack
+                self._damage = i.attack
                 
     def action(self, entity: 'Entity', kind: str) -> None:
         pass

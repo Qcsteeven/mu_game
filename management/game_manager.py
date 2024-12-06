@@ -22,7 +22,7 @@ class GameManager:
         self.px, self.py = 0, 0
         settings = Adapter.adapt("config.json")
         self.pattern = PatCreator.create_2d_array(settings["rows"], settings["cols"], settings["d_count"])
-        self._entities = [robber(GameManager)]
+        self._entities = [robber(GameManager, "epic")]
         self._map = Map(self.pattern, self._entities)
         try:
             with open('text.JSON', 'r', encoding='utf-8') as file:
@@ -76,7 +76,7 @@ class GameManager:
                     direction = input()
                     self.player.action("move", "step", direction)
                 case ("attack"):
-                    print("Ты слишком слаб, чтобы драться")
+                    self.start_fight()
                 case ("trade"):
                     if self.player.room.creations[0].__name__ == "trader":
                         act = input("Вы хотите что-то купить или продать? (sell / buy)")
@@ -107,7 +107,10 @@ class GameManager:
                 pass
 
     def start_fight(self):
-        pass
+        enemy = self.player.room.creations[0]
+        print(f"Драка с {enemy.name}")
+        self.player.action("attack", self.player.room.creations[0])
+        print(f"У моба осталось {self.player.health} здоровья")
 
     def change_player_position(self, position, *args):
         size_x, size_y = self._map.map_size()
