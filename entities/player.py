@@ -4,6 +4,7 @@ if TYPE_CHECKING:
     from management.game_manager import GameManager
     from map.room import Room
     from objects.objects import Object
+    from effects import Effect
 from entities.entity import Entity 
 
 class Player(Entity):
@@ -84,7 +85,8 @@ class Player(Entity):
         if new_thing:
             self.inventory.append(new_thing)
             self._money -= new_thing.price
-            
+
+    @Effect()
     def move(self, kind : str, *args, **kwargs) -> None:
         new_pos = tuple()
         if kind == "step":
