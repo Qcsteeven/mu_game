@@ -11,10 +11,14 @@ from abc import ABC, abstractmethod
 
 class Room(ABC):
     def __init__(self, isSafe: bool, creations: list[Entity], objects: list[Objects], room_effects: list[Effect], room_effect=None):
+
         self.isSafe = isSafe
         self.creations = creations
         self.objects = objects
         self.room_effect = room_effect
+
+        self.visited = False
+
 
     @abstractmethod
     def update(self) -> None:
@@ -32,23 +36,23 @@ class Room(ABC):
 class Armory(Room):
     type = "Armory"
 
-    def update(self):
+    def update(self, notify_message: str, *args, **kwargs):
+        match (notify_message):
+            case ("move"):
+                self.hello_message(*args, **kwargs)
+            case (_):
+                pass
 
-        for creation in self.creations:
-            creation.update()
 
-        for obj in self.objects:
-            obj.update()
-
-        for effect in self.roomEffect:
-            effect.update()
+    def hello_message(self, player: Player):
+        if self == player.room:
+            print("Добро пожаловать оружейную")
 
     def apply_effect(self) -> None:
         pass
 
     def discharge_effect(self) -> None:
         pass
-
 
 class Shop(Room):
     type = "Shop"
@@ -62,7 +66,8 @@ class Shop(Room):
 
     def hello_message(self, player: Player):
         if self == player.room:
-            print("Добро пожаловать в {self.type}")
+            print("Добро пожаловать в магазин")
+
 
     def apply_effect(self) -> None:
         pass
@@ -87,4 +92,46 @@ class Dungeon(Room):
             effect.update()
 
     def discharge_effect(self):
+
         self.room_effect = None
+
+
+class EmptyRoom(Room):
+    type = "EmptyRoom"
+
+    def update(self, notify_message: str, *args, **kwargs):
+        match (notify_message):
+            case ("move"):
+                self.hello_message(*args, **kwargs)
+            case (_):
+                pass
+
+    def hello_message(self, player: Player):
+        if self == player.room:
+            print("Вы попали в пустую комнату")
+
+    def apply_effect(self) -> None:
+        pass
+
+    def discharge_effect(self) -> None:
+        pass
+
+class BossRoom(Room):
+    type = "BossRoom"
+
+    def update(self, notify_message: str, *args, **kwargs):
+        match (notify_message):
+            case ("move"):
+                self.hello_message(*args, **kwargs)
+            case (_):
+                pass
+
+    def hello_message(self, player: Player):
+        if self == player.room:
+            print("Вы попали в покои босса")
+
+    def apply_effect(self) -> None:
+        pass
+
+    def discharge_effect(self) -> None:
+        pass
