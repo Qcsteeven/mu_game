@@ -6,7 +6,6 @@ from map.map import Map
 from entities.player import Player
 from entities.npc import robber
 
-
 class GameManager:
     _instance = None  # Приватное поле для хранения единственного экземпляра
     isCreated = False
@@ -20,10 +19,11 @@ class GameManager:
         if GameManager.isCreated:
             return
         GameManager.isCreated = True
+        self.px, self.py = 0, 0
         settings = Adapter.adapt("config.json")
-        pattern = PatCreator.create_2d_array(settings["rows"], settings["cols"], settings["d_count"])
+        self.pattern = PatCreator.create_2d_array(settings["rows"], settings["cols"], settings["d_count"])
         self._entities = [robber(GameManager)]
-        self._map = Map(pattern, self._entities)
+        self._map = Map(self.pattern, self._entities)
         try:
             with open('text.JSON', 'r', encoding='utf-8') as file:
                 data = json.load(file)
@@ -111,12 +111,20 @@ class GameManager:
 
     def change_player_position(self, position, *args):
         size_x, size_y = self._map.map_size()
+
         if position != ():
             x, y = position
-            if -1 < x and x < size_x  and -1 < y and y < size_y:
+            if self.pattern[x][y] == 'B':
+                vibor = input("Вы хотите зайти в покои босса (yes, no)? ").strip()
+                if vibor.lower() == 'yes':
+                    pass
+                elif vibor.lower() == 'no':
+                    print("Вы не рискнули посетить покои босса")
+                    return 
+
+            if -1 < x and x < size_x and -1 < y and y < size_y:
                 self._map.make_visited(x, y)
                 self.player.position = position
-                self._map.show_map(position)
-            
-            
-
+                self._map.show_map(x, y)
+                self.px = x
+                self.py = y

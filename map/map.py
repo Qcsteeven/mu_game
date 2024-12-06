@@ -2,7 +2,6 @@ from map.room import *
 import random
 from entities.entity import Entity
 
-
 class Map:
     _instance = None
     _isCreated = False
@@ -33,9 +32,10 @@ class Map:
                     enemy = random.choice(Entities)
                     self._map[i].append(Dungeon(False, [enemy], [], []))
                 elif pattern[i][j] == "B":
-                    self._map[i].append(EmptyRoom(True, [], [], []))
+                    self._map[i].append(BossRoom(True, [], [], []))
                 elif pattern[i][j] == '-':
                     self._map[i].append(EmptyRoom(True, [], [], []))
+                
         self._map[0][0].visited = True
 
     def get_room(self, x_pos: int, y_pos: int):
@@ -51,14 +51,14 @@ class Map:
     def map_size(self):
         return self.rows, self.cols
 
-    def show_map(self, pos) -> None:
-        x, y = pos
-        arr = [['?'] * self.cols for i in range(self.rows)]
+    def show_map(self, x, y) -> None:
+        arr = [['?'] * self.cols for _ in range(self.rows)]
+
         for i in range(self.rows):
             for j in range(self.cols):
                 if self._map[i][j].visited:
-                    arr[i][j]=self.pattern[i][j]
-                    print(self.pattern[i][j])
+                    arr[i][j] = self.pattern[i][j]
+        
         arr[x][y] = "X"
         for i in arr:
             print(*i)
