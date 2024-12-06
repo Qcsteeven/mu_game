@@ -25,7 +25,7 @@ class Map:
                     self._map[i].append(Shop(True, ["Shop"], [], []))
                 elif pattern[i][j] == 'd':
                     enemy = random.choice(Entities)
-                    self._map[i].append(Dungeon(False, [enemy], [], []))
+                    self._map[i].append(Dungeon(False, [enemy], [], []).apply_effect)
                 else:
                     issafe = random.randint(0, 1)
                     if issafe == 1:
