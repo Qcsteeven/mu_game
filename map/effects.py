@@ -12,6 +12,5 @@ class Effect:
             def __init__(self, *args, **kwargs):
                 super().__init__(*args, **kwargs)
                 our_effect = random.choice(Effect.effects_room)
-                self.roomEffect = our_effect
-
+                self.room_effect = our_effect
         return WrapperCls
