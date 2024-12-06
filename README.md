@@ -34,29 +34,32 @@ MuGame — это пошаговая стратегия в магическом 
 ### Документация
 
 Информация об архитектуре проекта находится в файле mu_game.png (UML-диаграмма классов). Структура проекта:
-`mu_game/`
-`├── entities/`
-`│   ├── __init__.py`
-`│   ├── effects.py`
-`│   ├── entity.py`
-`│   ├── npc.py`
-`│   ├── player.py`
-`├── management/`
-`│   ├── __init__.py`
-`│   ├── game_manager.py`
-`│   ├── text.JSON`
-`├── map/`
-`│   ├── __init__.py`
-`│   ├── config.json`
-`│   ├── config_room.py`
-`│   ├── create_map.py`
-`│   ├── effects.py`
-`│   ├── map.py`
-`│   ├── room.py`
-`├── objects/`
-`│   ├── __init__.py`
-`│   ├── objects.py`
-`├── .gitignore`
-`├── __init__.py`
-`├── main.py`
-`├── README.md`
+```markdown
+mu_game/
+├── entities/
+│   ├── __init__.py
+│   ├── effects.py
+│   ├── entity.py
+│   ├── npc.py
+│   ├── player.py
+├── management/
+│   ├── __init__.py
+│   ├── game_manager.py
+│   ├── text.JSON
+├── map/
+│   ├── __init__.py
+│   ├── config.json
+│   ├── config_room.py
+│   ├── create_map.py
+│   ├── effects.py
+│   ├── map.py
+│   ├── room.py
+├── objects/
+│   ├── __init__.py
+│   ├── objects.py
+├── .gitignore
+├── __init__.py
+├── main.py
+├── README.md
+
+```
