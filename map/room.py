@@ -67,7 +67,7 @@ class Shop(Room):
     def discharge_effect(self) -> None:
        pass
         
-
+@Effect()
 class Dungeon(Room):
     type = "Dungeon"
     def update(self):
@@ -77,7 +77,6 @@ class Dungeon(Room):
        for obj in self.objects:
             obj.update()
 
-    @Effect()
     def apply_effect(self):
        for effect in self.roomEffect:
             effect.update()
