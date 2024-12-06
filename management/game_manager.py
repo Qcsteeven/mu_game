@@ -39,7 +39,6 @@ class GameManager:
     def check_player_position(self):
         x, y = self.player.position
         current_room = self._map.get_room(x, y)
-        print("Вы пришли в комнату: ", current_room)
 
         directions_tuple = self._map.avail_directions(x, y)
 
@@ -78,14 +77,14 @@ class GameManager:
                 case ("attack"):
                     self.start_fight()
                 case ("trade"):
-                    if self.player.room.creations[0].__name__ == "trader":
+                    if self.player.room.creations[0].type == "trader":
                         act = input("Вы хотите что-то купить или продать? (sell / buy)")
                         if act == "buy":
                             self.player.room.creations[0].show_inventory()
                         else: 
                             self.player.show_inventory()
                         thing = input("Название предмета: ")
-                        self.player.action(act, thing)
+                        self.player.action(act, self.player.room.creations[0], thing)
                 case ("show"):
                     self.player.action("show")
                 case ("use"):
@@ -110,7 +109,7 @@ class GameManager:
         enemy = self.player.room.creations[0]
         print(f"Драка с {enemy.name}")
         self.player.action("attack", self.player.room.creations[0])
-        print(f"У моба осталось {self.player.health} здоровья")
+        
 
     def change_player_position(self, position, *args):
         size_x, size_y = self._map.map_size()
@@ -128,6 +127,7 @@ class GameManager:
             if -1 < x and x < size_x and -1 < y and y < size_y:
                 self._map.make_visited(x, y)
                 self.player.position = position
-                self._map.show_map(x, y)
+                self.player.room = self._map.get_room(x, y)
+                self._map.show_map(position)
                 self.px = x
                 self.py = y

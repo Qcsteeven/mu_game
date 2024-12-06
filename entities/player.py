@@ -10,10 +10,10 @@ from entities.entity import Entity
 class Player(Entity):
     def __init__(self, game_manager : GameManager):
         super().__init__(game_manager)
-        self._money = 0
+        self._money = 100
         
     def action(self, kind : str, *args, **kwargs) -> None:
-        if len(args) > 0 and type(args[0]) is Entity:
+        if len(args) > 0 and isinstance(args[0], Entity):
             self.subscribe(args[0])
         match (kind):
             case ("attack"):
@@ -67,18 +67,24 @@ class Player(Entity):
         else:
             print("Инвентарь закончился")
         
-    def attack(self, entity : 'Entity', damage : int) -> None:
-        if entity.health - damage > 0:
-            entity.health -= damage
+    def attack(self, entity : 'Entity') -> None:
+        if entity.health - self._damage > 0:
+            entity.health -= self._damage
+            print(f"У {entity.name} осталось {entity.health} здоровья")
+            self.notify("hit", entity)
         else:
             entity.health = 0
-            entity.notify("kill", entity)
+            self.notify("kill", entity)
             
-    def sell(self, entity : 'Entity', thing : Object) -> None:
-        money = entity.sell(thing)
+    def sell(self, entity : 'Entity', thing : str) -> None:
+        money = entity.sell(thing, self.inventory)
+        th = None
+        for elem in self.inventory:
+            if thing == elem.name:
+                th = elem
         if money:
             self._money += money
-            self.inventaty.remove(thing)        
+            self.inventory.remove(th)        
 
     def buy(self, entity : 'Entity', thing : str) -> None:
         new_thing = entity.trading(self._money, thing)

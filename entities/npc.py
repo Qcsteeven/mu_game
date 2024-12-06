@@ -13,7 +13,6 @@ import os
 class NPC(Entity):
     def __init__(self, game_manager: GameManager):
         super().__init__(game_manager)
-        print(f'появился {Entity.name}')
 
     def action(self, entity: 'Entity', kind: str) -> None:
         pass
@@ -21,14 +20,18 @@ class NPC(Entity):
     def use_inventory(self) -> Object:
         pass
 
-    def __del__(self):
-        print(f'{self.name} убит')
-
 
 class trader(NPC):
+    type = "trader"
+    
     def __init__(self, game_manager: GameManager):
         super().__init__(game_manager)
+        self._name = "Trader"
         self.inventory = load_items_from_json('management/text.JSON')
+        
+    def update(self, *args, **kwargs):
+        pass
+        
 
     def action(self, entity: 'Entity', kind: str) -> None:
         pass
@@ -37,29 +40,37 @@ class trader(NPC):
         pass
 
     def trading(self, money, name_bread):
-        if name_bread in self.inventory and self.inventory[name_bread].price <= money:
+        thing = None
+        for i in self.inventory:
+            if i.name == name_bread:
+                thing = i
+        if (not thing is None) and thing.price <= money:
             confirm = input(
-                f'вы точно хатите купить {name_bread} за {name_bread.price // 1.2} '
-                f'РУБЛЕЙ (что бы подтвердить в ведите <да>)')
+                f'Вы точно хотите купить {name_bread} за {thing.price // 1.2} '
+                f'РУБЛЕЙ (чтобы подтвердить введите "Да")')
             if confirm.lower() != 'да':
                 return None
-            tmp = self.inventory[name_bread]
-            self.inventory.remove(name_bread)
+            self.inventory.remove(thing)
             print(f"Поздравляю с покупкой {name_bread}")
-            return tmp
+            return thing
         else:
-            if name_bread in self.inventory:
-                print(f'Вам не хватает {self.inventory[name_bread].price - money}')
+            if thing in self.inventory:
+                print(f'Вам не хватает {thing.price - money}')
             else:
-                print(f'ВЫ что то путаете у меня нет {name_bread}')
+                print(f'Вы что-то путаете у меня нет {name_bread}')
             return None
 
-    def sell(self, bread: Object):
+    def sell(self, name_thing : str, inventory : list[Object]):
+        thing = None
+        for elem in inventory:
+            if name_thing == elem.name:
+                thing = elem
+        
         confirm = input(
-            f'вы точно хотите продать {bread} за {bread.price // 1.2} РУБЛЕЙ (что бы подтвердить в ведите <да>)')
+            f'вы точно хотите продать {name_thing} за {thing.price // 1.2} РУБЛЕЙ (что бы подтвердить в ведите "Да")')
         if confirm.lower() == 'да':
-            self.inventory = self.inventory + bread
-            return bread.price // 1.2
+            self.inventory = self.inventory + [thing]
+            return thing.price // 1.2
         else:
             return 0
 
@@ -73,8 +84,11 @@ class trader(NPC):
 
 
 class robber(NPC):
+    type = "robber"
+    
     def __init__(self, game_manager : GameManager, rarity : str):
         super().__init__(game_manager)
+        self._name = "Skeleton"
         self.inventory = load_set_items_npc_json(rarity, 'management/text.JSON')
         for i in self.inventory:
             if i.item_type == 'armor':
@@ -88,16 +102,21 @@ class robber(NPC):
     def use_inventory(self) -> Object:
         pass
 
-    def underattack(self, entity: 'Entity', damage: int):
-        entity.health = - damage
+    def underattack(self, entity: 'Entity'):
+        entity.health -= self.damage
+        print(f"{entity.name} нанёс вам удар")
+        print(f"У вас осталось {entity.health} здоровья")
         if entity.health <= 0:
             entity.notify("lose")
 
     def kill(self, entity: 'Entity'):
         entity.inventory = entity.inventory + self.inventory
-        self.__del__()
+        
 
-    def update(self, notifi_message, *args, **kwargs):
-        match notifi_message:
-            case "kill":
+    def update(self, notify_message, *args, **kwargs):
+        match (notify_message):
+            case ("kill"):
                 self.kill(args[0])
+            case ("hit"):
+                self.underattack(args[0])
+                

@@ -1,7 +1,11 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from management.game_manager import GameManager
 from map.room import *
 import random
 from entities.npc import trader, robber
-from management.game_manager import GameManager
+
 
 
 class Map:
@@ -37,12 +41,12 @@ class Map:
                     self._map[i].append(armory)
                 elif pattern[i][j] == 'd':
                     dungeon = Dungeon(False,[],[],[])
-                    rb = robber(game_manager, random.choice["common", "rare", "epic"])
+                    rb = robber(game_manager, random.choice(["common", "rare", "epic"]))
                     rb.room = dungeon
                     dungeon.creations.append(rb)
                     self._map[i].append(dungeon)
                 elif pattern[i][j] == "B":
-                    self._map[i].append(EmptyRoom(True, [], [], []))
+                    self._map[i].append(BossRoom(True, [], [], []))
                 elif pattern[i][j] == '-':
                     self._map[i].append(EmptyRoom(True, [], [], []))
         self._map[0][0].visited = True
