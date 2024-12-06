@@ -4,14 +4,13 @@ if TYPE_CHECKING:
     from management.game_manager import GameManager
     from map.room import Room
     from objects.objects import Object
-from entities.effects import Effect
 from entities.entity import Entity 
 
 class Player(Entity):
     def __init__(self, game_manager : GameManager):
         super().__init__(game_manager)
         self._money = 100
-        
+    
     def action(self, kind : str, *args, **kwargs) -> None:
         if len(args) > 0 and isinstance(args[0], Entity):
             self.subscribe(args[0])
@@ -92,7 +91,6 @@ class Player(Entity):
             self.inventory.append(new_thing)
             self._money -= new_thing.price
 
-    @Effect()
     def move(self, kind : str, *args, **kwargs) -> None:
         new_pos = tuple()
         if kind == "step":

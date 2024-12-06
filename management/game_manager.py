@@ -5,6 +5,7 @@ from map.create_map import PatCreator
 from map.map import Map
 from entities.player import Player
 from entities.npc import robber
+from management.effects import Effect
 
 class GameManager:
     _instance = None  # Приватное поле для хранения единственного экземпляра
@@ -78,7 +79,7 @@ class GameManager:
                     self.start_fight()
                 case ("trade"):
                     if self.player.room.creations[0].type == "trader":
-                        act = input("Вы хотите что-то купить или продать? (sell / buy)")
+                        act = input("Вы хотите что-то купить или продать? (sell / buy) ")
                         if act == "buy":
                             self.player.room.creations[0].show_inventory()
                         else: 
@@ -116,6 +117,8 @@ class GameManager:
 
         if position != ():
             x, y = position
+            
+            
             if self.pattern[x][y] == 'B':
                 vibor = input("Вы хотите зайти в покои босса (yes, no)? ").strip()
                 if vibor.lower() == 'yes':
@@ -125,9 +128,12 @@ class GameManager:
                     return 
 
             if -1 < x and x < size_x and -1 < y and y < size_y:
+                
                 self._map.make_visited(x, y)
                 self.player.position = position
                 self.player.room = self._map.get_room(x, y)
+                eff = Effect()
+                eff(self.player.room)
                 self._map.show_map(position)
                 self.px = x
                 self.py = y

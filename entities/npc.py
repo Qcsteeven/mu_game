@@ -46,8 +46,8 @@ class trader(NPC):
                 thing = i
         if (not thing is None) and thing.price <= money:
             confirm = input(
-                f'Вы точно хотите купить {name_bread} за {thing.price // 1.2} '
-                f'РУБЛЕЙ (чтобы подтвердить введите "Да")')
+                f'Вы точно хотите купить {name_bread} за {thing.price} '
+                f'РУБЛЕЙ (чтобы подтвердить введите "Да") ')
             if confirm.lower() != 'да':
                 return None
             self.inventory.remove(thing)
@@ -67,7 +67,7 @@ class trader(NPC):
                 thing = elem
         
         confirm = input(
-            f'вы точно хотите продать {name_thing} за {thing.price // 1.2} РУБЛЕЙ (что бы подтвердить в ведите "Да")')
+            f'вы точно хотите продать {name_thing} за {thing.price // 1.2} РУБЛЕЙ (что бы подтвердить в ведите "Да") ')
         if confirm.lower() == 'да':
             self.inventory = self.inventory + [thing]
             return thing.price // 1.2
