@@ -68,7 +68,7 @@ class GameManager:
 
     def menu(self):
         while True:
-            print("Выберите действие: walk, attack, trade")
+            print("Выберите действие: walk, attack, trade, show")
             action = input()
             match action:
                 case ("walk"):
@@ -78,7 +78,19 @@ class GameManager:
                 case ("attack"):
                     print("Ты слишком слаб, чтобы драться")
                 case ("trade"):
-                    print("Сегодня шаббат")
+                    if self.player.room.creations[0].__name__ == "trader":
+                        act = input("Вы хотите что-то купить или продать? (sell / buy)")
+                        if act == "buy":
+                            self.player.room.creations[0].show_inventory()
+                        else: 
+                            self.player.show_inventory()
+                        thing = input("Название предмета: ")
+                        self.player.action(act, thing)
+                case ("show"):
+                    self.player.action("show")
+                case ("use"):
+                    item = input("Название предмета:")
+                    self.player.action("use", item)
             self.check_player_position()
             self.observe_room()
 
